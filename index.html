@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Example Cinematic</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.js" integrity="sha512-H05oT7BAjM9Ai1IaFX9zr61NtE2e1P0MkTz3AZXBnseaJSAOt2FGMFJ+vVGutaJxEGA1jxUiYsTBYQNE08/Erw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        class Intro extends Phaser.Scene {
+            constructor() {
+                super('intro');
+            }
+            create() {
+                this.add.text(650,300,"Click to begin.");
+                this.input.on('pointerdown', () => this.scene.start('load'));
+            }
+        }
+
+        class Load extends Phaser.Scene {
+            constructor() {
+                super('load');
+            }
+            preload() {
+                this.load.path = './assets/';
+                this.load.image('guy', 'guy.png');}
+            create() {
+                this.add.text(1400,725,"Loading...");
+                let box = this.add.text(300, 100,
+                `This is not a square`
+                );
+                
+                this.imageObject = this.add.image(
+            100,//x
+            400,//y
+            'guy',//imagename
+            );
+        this.imageObject.setScale(0.1); //resize */
+
+
+                let thing = this.add.circle(150, 150, 100, 0xff0000);
+                /* this.add.tween({
+                    targets: thing,
+                    scale: {from: 0, to: 1},
+                    duration: 1000
+                }); */
+
+                this.tweens.add({
+                    targets: this.imageObject,
+                    x:1500,
+                    y:400,
+                    rotation: 7,
+                    duration: 2000,
+                    ease: 'Linear',
+                    repeat: -1,
+                }); 
+
+
+                this.time.delayedCall(2000, () => {
+                    this.cameras.main.fadeOut(2000, 0,255,0);
+                });
+
+                this.time.delayedCall(5000, () => {
+                    this.scene.start('intro');
+                })
+
+                this.input.on('pointerdown', () => this.scene.start('intro'));
+            }
+        }
+
+        new Phaser.Game({
+            width: 1500,
+            height: 750,
+            scene: [Intro, Load],
+        });
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
