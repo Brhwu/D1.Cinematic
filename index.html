@@ -61,11 +61,44 @@
                 });
 
                 this.time.delayedCall(5000, () => {
-                    this.scene.start('mainmenu');
+                    this.scene.start('title');
                 })
 
-                this.input.on('pointerdown', () => this.scene.start('mainmenu'));
+                this.input.on('pointerdown', () => this.scene.start('title'));
             }
+        }
+        class Title extends Phaser.Scene {
+            constructor() {
+                super('title');
+            }
+            preload() {
+                this.load.image('guy', 'guy.png');
+                this.load.image('background', 'background.png');
+            }
+            create() {
+                this.cameras.main.fadeIn(4000, 255,255,255);
+                this.add.text(550,100, "Man in the city", {fontSize: 50})
+                this.add.text(595,200, "Click to Begin", {fontSize: 40})
+                this.input.on('pointerdown', () => this.scene.start('mainmenu'));
+
+                this.imageObject = this.add.image(
+                    950,//x
+                    550,//y
+                    'background',//imagename
+                    );
+                
+                this.imageObject.setScale(0.8); //resize */
+
+                this.imageObject1 = this.add.image(
+                    950,//x
+                    620,//y
+                    'guy',//imagename
+                    );
+                
+                this.imageObject1.setScale(0.1); //resize */
+                                
+            }
+
         }
         class MainMenu extends Phaser.Scene {
             constructor() {
@@ -80,7 +113,6 @@
 
                 this.cameras.main.fadeIn(4000, 255,255,255);
 
-                this.add.text(700,100, "Man in the city", {fontSize: 50})
                 this.add.text(100,200,"Start Game", {fontSize: 40});
                 this.add.text(100,300,"Options", {fontSize: 40});
                 this.add.text(100,400,"Credits", {fontSize: 40});
@@ -119,14 +151,53 @@
             create() {
                 this.cameras.main.fadeIn(4000, 255,255,255);
 
-                let starting = this.add.text(700,100, "Click to start", {fontSize: 50})
-                this.input.on('pointerdown', () => this.add.text(300, 100,`There once was a man in a city`,), 
-                    this.tweens.add({targets: starting, visible: 0,}) );
+
+
+                this.time.delayedCall(2000, () => {
+                    this.add.text(300, 100,`There once was a man in a city`);
+                })
+
+                this.time.delayedCall(3000, () => {
+                    this.add.text(600, 100,`who liked to stand on rooftops.`);
+                    this.imageObject1 = this.add.image(
+                        1250,//x
+                        210,//y
+                        'guy',//imagename
+                        );
+                    
+                    this.imageObject1.setScale(0.1); //resize */
+                })
                 
+                this.time.delayedCall(4000, () => {
+                    this.add.text(300, 125,`One day a meteor dropped from the sky`);
+                    this.graphics = this.add.graphics();
+                    this.graphics.fillStyle(0xff9900, 1); //color, opacity
+                    let meteor = this.graphics.fillEllipse(100, 100, 200, 200, 16); // x, y, width, height, smoothness
+                    
+                    this.tweens.add({
+                        targets: meteor,
+                        x:1100,
+                        y:190,
+                        //rotation: 5,
+                        duration: 1000,
+                        ease: 'Linear',
+                    });
+                })
+
+                this.time.delayedCall(5000, () => {
+                    this.add.text(665, 125,`and dropped directly on this guy.`);
+                })                
+
+
+                /*let starting = this.add.text(700,100, "Click to start", {fontSize: 50})
+                this.input.on('pointerdown', () => (this.tweens.add({targets: starting, visible: 0,}),
+                this.add.text(300, 100,`There once was a man in a city`,)));
+                
+                this.input.on('pointerdown', () => this.add.text(600, 100,`who liked to stand on rooftops`))
 
 
                 //box.add.text(300, 100, 'test');
-
+*/
                 this.imageObject = this.add.image(
                     950,//x
                     550,//y
@@ -139,7 +210,7 @@
         new Phaser.Game({
             width: 1500,
             height: 750,
-            scene: [Intro, Load, MainMenu, Story],
+            scene: [Intro, Load, Title, MainMenu, Story],
         });
     </script>
 </head>
