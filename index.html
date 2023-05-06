@@ -27,15 +27,17 @@
             create() {
                 this.add.text(1400,725,"Loading...");
                 let box = this.add.text(300, 100,
-                `This is not a square`
+                `These are not squares`
                 );
-                
+                this.graphics = this.add.graphics();
+                this.graphics.fillStyle(0x0000ff, 1); //color, opacity
+                this.graphics.fillEllipse(600, 100, 200, 200, 5); // x, y, width, height, smoothness
                 this.imageObject = this.add.image(
-            100,//x
-            400,//y
-            'guy',//imagename
-            );
-        this.imageObject.setScale(0.1); //resize */
+                    100,//x
+                    400,//y
+                    'guy',//imagename
+                    );
+                this.imageObject.setScale(0.1); //resize */
 
 
                 let thing = this.add.circle(150, 150, 100, 0xff0000);
@@ -44,6 +46,7 @@
                     scale: {from: 0, to: 1},
                     duration: 1000
                 }); */
+
 
                 this.tweens.add({
                     targets: this.imageObject,
@@ -108,11 +111,15 @@
                 //this.load.path = './assets/';
                 this.load.image('guy', 'guy.png');
                 this.load.image('background', 'background.png');
+                this.load.audio('theme', ['Wind.wav'])
             }
             create() {
 
                 this.cameras.main.fadeIn(4000, 255,255,255);
 
+                const music = this.sound.add('theme');
+
+                music.play();
                 this.add.text(100,200,"Start Game", {fontSize: 40});
                 this.add.text(100,300,"Options", {fontSize: 40});
                 this.add.text(100,400,"Credits", {fontSize: 40});
@@ -147,6 +154,7 @@
                 //this.load.path = './assets/';
                 this.load.image('guy', 'guy.png');
                 this.load.image('background', 'background.png');
+                this.load.audio('bonk', ['Bonk.mp3'])
             }
             create() {
                 this.cameras.main.fadeIn(4000, 255,255,255);
@@ -182,6 +190,13 @@
                         duration: 1000,
                         ease: 'Linear',
                     });
+                })
+
+
+
+                this.time.delayedCall(5100, () => {
+                    const bonk1 = this.sound.add('bonk');
+                    bonk1.play();
                 })
 
                 this.time.delayedCall(5500, () => {
