@@ -184,10 +184,25 @@
                     });
                 })
 
-                this.time.delayedCall(5000, () => {
+                this.time.delayedCall(5500, () => {
                     this.add.text(665, 125,`and dropped directly on this guy.`);
                 })                
 
+                this.time.delayedCall(6500, () => {
+                    this.add.text(300, 150,`And oh boy did he fly.`);
+                    this.tweens.add({
+                        targets: this.imageObject1,
+                        x:-100,
+                        y:100,
+                        rotation: 7,
+                        duration: 2000,
+                        ease: 'Linear',
+                    }); 
+                })       
+
+                this.time.delayedCall(7500, () => {
+                    this.add.text(550, 175,`The End`, {fontSize: 40});
+                })
 
                 /*let starting = this.add.text(700,100, "Click to start", {fontSize: 50})
                 this.input.on('pointerdown', () => (this.tweens.add({targets: starting, visible: 0,}),
