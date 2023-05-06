@@ -57,21 +57,89 @@
 
 
                 this.time.delayedCall(2000, () => {
-                    this.cameras.main.fadeOut(2000, 0,255,0);
+                    this.cameras.main.fadeOut(2000, 255,255,255);
                 });
 
                 this.time.delayedCall(5000, () => {
-                    this.scene.start('intro');
+                    this.scene.start('mainmenu');
                 })
 
-                this.input.on('pointerdown', () => this.scene.start('intro'));
+                this.input.on('pointerdown', () => this.scene.start('mainmenu'));
             }
+        }
+        class MainMenu extends Phaser.Scene {
+            constructor() {
+                super('mainmenu');
+            }
+            preload() {
+                //this.load.path = './assets/';
+                this.load.image('guy', 'guy.png');
+                this.load.image('background', 'background.png');
+            }
+            create() {
+
+                this.cameras.main.fadeIn(4000, 255,255,255);
+
+                this.add.text(700,100, "Man in the city", {fontSize: 50})
+                this.add.text(100,200,"Start Game", {fontSize: 40});
+                this.add.text(100,300,"Options", {fontSize: 40});
+                this.add.text(100,400,"Credits", {fontSize: 40});
+                this.add.text(100,500,"Quit", {fontSize: 40});
+                
+
+
+                this.imageObject = this.add.image(
+                    950,//x
+                    550,//y
+                    'background',//imagename
+                    );
+                
+                this.imageObject.setScale(0.8); //resize */
+
+                this.imageObject1 = this.add.image(
+                    950,//x
+                    620,//y
+                    'guy',//imagename
+                    );
+                
+                this.imageObject1.setScale(0.1); //resize */
+
+                this.input.on('pointerdown', () => this.scene.start('story'));
+            }
+        }
+        class Story extends Phaser.Scene {
+            constructor() {
+                super('story');
+            }
+            preload() {
+                //this.load.path = './assets/';
+                this.load.image('guy', 'guy.png');
+                this.load.image('background', 'background.png');
+            }
+            create() {
+                this.cameras.main.fadeIn(4000, 255,255,255);
+
+                let starting = this.add.text(700,100, "Click to start", {fontSize: 50})
+                this.input.on('pointerdown', () => this.add.text(300, 100,`There once was a man in a city`,), 
+                    this.tweens.add({targets: starting, visible: 0,}) );
+                
+
+
+                //box.add.text(300, 100, 'test');
+
+                this.imageObject = this.add.image(
+                    950,//x
+                    550,//y
+                    'background',//imagename
+                    );
+            }
+
         }
 
         new Phaser.Game({
             width: 1500,
             height: 750,
-            scene: [Intro, Load],
+            scene: [Intro, Load, MainMenu, Story],
         });
     </script>
 </head>
